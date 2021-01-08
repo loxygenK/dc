@@ -17,6 +17,14 @@ def question(message, override=False):
     return read
 
 
+def log(message):
+    print_with_tag(" ", message, "light_steel_blue")
+
+
+def fatal(message):
+    print_with_tag("!", message, "orange_red_1")
+
+
 def success(message):
     print_with_tag("✓", message, "chartreuse_3a")
 
