@@ -40,5 +40,7 @@ class CommandDispatcher:
                 print("    Check proper syntax for this command using help.")
 
             cmd.execute(args[1:], config)
-            break
+            return
+
+        print(f"[!] No such command: {args[0]}")
 
