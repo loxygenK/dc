@@ -13,7 +13,7 @@ def main():
         return
 
     config = Configuration()
-    cmd_dispatcher.dispatch_command(sys.argv[:1], config)
+    cmd_dispatcher.dispatch_command(sys.argv[1:], config)
 
 
 if __name__ == "__main__":
