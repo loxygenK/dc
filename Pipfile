@@ -9,6 +9,7 @@ jedi = "*"
 
 [packages]
 toml = "*"
+colored = "*"
 
 [requires]
 python_version = "3.8"
