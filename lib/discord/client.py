@@ -1,5 +1,8 @@
 import asyncio
+from functools import reduce
+from typing import Type, List
 
+import discord
 from discord import Client
 from lib.util.colored_print import log, fatal, success
 
@@ -33,4 +36,25 @@ class DiscordClient(Client):
             returned_value = func(self, event, *args, **kwargs)
             if returned_value is not None and not returned_value:
                 fatal("One of callback functions reported error when handling.")
+
+    def search_channel(self, query, filter_by: List[Type] = []) -> discord.TextChannel:
+        channel_table = list([[x, x.channels] for x in self.guilds])
+        all_channels = reduce(lambda x, y: x + y[1], channel_table, [])
+        filtered_channels = list(filter(lambda x: type(x) in filter_by, all_channels))
+        channel_names = {x.name: x for x in filtered_channels}
+
+        # 1. perfect matching of only channel name
+        if query in channel_names:
+            return channel_names[query]
+
+        # 2. partial matching of only channel name
+        hit_channels = list(filter(lambda kv: kv[0].find(query) != -1, channel_names.items()))
+        if len(hit_channels) > 1:
+            fatal("There was multiple channel hits to your channel name!")
+            return None
+        elif len(hit_channels) == 1:
+            return hit_channels[0][1]
+
+        return None
+
 
