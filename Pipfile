@@ -8,6 +8,9 @@ pylint = "*"
 jedi = "*"
 
 [packages]
+toml = "*"
+colored = "*"
+"discord.py" = "*"
 
 [requires]
 python_version = "3.8"
