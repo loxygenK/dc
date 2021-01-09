@@ -3,7 +3,7 @@ from colored import fg, bg, attr
 def question(message, override=False):
     terminate = "\n" if len(message) > 30 else ""
     mes = message.replace("\n", "\n    ")
-    print_with_tag("?", message, "yellow_1", terminate)
+    print_with_tag("?", mes, "yellow_1", terminate)
 
     read = input()
 
