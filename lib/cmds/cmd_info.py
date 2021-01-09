@@ -22,4 +22,5 @@ class CommandInfo:
     name: str
     arg: List[Argument]
     description: str
+    discord: bool = False
 

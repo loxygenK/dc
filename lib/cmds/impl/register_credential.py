@@ -14,7 +14,7 @@ class RegisterCredentialCommand(AbstractCommand):
             "Register the credentials for logging in to Discord."
         )
 
-    def execute(self, args, config: Configuration):
+    def execute(self, argument, config: Configuration, discord=None):
         if config.discord_token != "":
             intension = question(
                 "Seems you already registered the token to login Discord.\n"

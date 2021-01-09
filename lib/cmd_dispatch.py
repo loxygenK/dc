@@ -1,6 +1,8 @@
 from typing import List
 from lib.cmds.abst_cmd import AbstractCommand
 from lib.config.config import Configuration
+from lib.discord.client import DiscordClient
+from colored import attr
 
 
 class CommandDispatcher:
@@ -18,13 +20,15 @@ class CommandDispatcher:
             cmd_info = cmd.get_command_info()
             arg_text = " ".join(list(map(lambda x: str(x), cmd_info.arg)))
             help_text += (
-                f"  {cmd_info.name} {arg_text}\n"
-                f"     {cmd_info.description}\n"
+                f"  {attr('bold')}{cmd_info.name}{attr('reset')} {arg_text}\n" +
+                f"     {cmd_info.description}\n" +
+                ("     This command communicates with Discord.\n" if cmd_info.discord else "") +
+                "\n"
             )
-
+        help_text = help_text.strip()
         print(help_text)
 
-    def dispatch_command(self, args: List[str], config: Configuration):
+    def dispatch_command(self, args: List[str], config: Configuration, discord: DiscordClient):
         if args[0] == "help":
             self.show_help()
             return
@@ -39,7 +43,11 @@ class CommandDispatcher:
                 print("[!] Invalid argument number.")
                 print("    Check proper syntax for this command using help.")
 
-            cmd.execute(args[1:], config)
+            if info.discord:
+                cmd.execute(args[1:], config, discord)
+            else:
+                cmd.execute(args[1:], config)
+
             return
 
         print(f"[!] No such command: {args[0]}")
